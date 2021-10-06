@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace web_results.Model
+namespace WebResults.Model
 {
 	public class AppDataContext : DbContext
 	{
