@@ -24,16 +24,33 @@ export class ResultTable extends React.PureComponent<{}, FetchResultsState>{
                 this.setState({ results: data, loading: false });
                 console.log('__loaded__')
             });
+    }
 
+    save() {
+        if (this.state.loading){
+            return;
+        }
+        
+        var data = new FormData();
+        data.append("payLoad", JSON.stringify(this.state.results));
+
+        const options = {
+            method: 'Put',
+            body: data
+        };
+        fetch('api/Put/', options)
     }
 
     render() {
+        console.log(this.state)
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
             : this.renderTable(this.state.results);
         console.log('__rendered__')
         return <div>
             {contents}
+            <button onClick={() => this.save()}>Save</button>
+            <button>Calculate</button>
         </div>;
     }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using WebResults.Model;
 
@@ -35,8 +37,14 @@ namespace WebResults.Controllers
 
 		[HttpPut]
 		[Route("api/Put")]
-		public void Put(IEnumerable<Result> results)
+		public void Put(string payLoad)
 		{
+			if (string.IsNullOrEmpty(payLoad))
+			{
+				return;
+			}
+			
+			var results = JsonSerializer.Deserialize<Result[]>(payLoad);
 			_context.UpdateRange(results);
 			_context.SaveChanges();
 		}
