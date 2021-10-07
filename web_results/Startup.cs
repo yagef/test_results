@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebResults.Model;
 
 namespace WebResults
 {
@@ -16,6 +18,8 @@ namespace WebResults
 			{
 				configuration.RootPath = "ClientApp/dist";
 			});
+
+			services.AddDbContext<AppDataContext>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -27,10 +31,10 @@ namespace WebResults
 
 			app.UseRouting();
 
-			// app.UseEndpoints(endpoints =>
-			// {
-			// 	endpoints.MapControllers();
-			// });
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
 
 			app.UseSpa(spa =>
 			{

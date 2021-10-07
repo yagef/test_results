@@ -11,4 +11,12 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     </ItemGroup>
 
+    <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app.test.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\App.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\Components\Result.ts" />
+      <TypeScriptCompile Include="ClientApp\src\Components\ResultTable.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\index.tsx" />
+    </ItemGroup>
+
 </Project>
