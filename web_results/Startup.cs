@@ -16,7 +16,7 @@ namespace WebResults
  
 			services.AddSpaStaticFiles(configuration =>
 			{
-				configuration.RootPath = "ClientApp/dist";
+				configuration.RootPath = "ClientApp/build";
 			});
 
 			services.AddDbContext<AppDataContext>();

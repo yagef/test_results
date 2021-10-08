@@ -23,4 +23,24 @@
       <TypeScriptCompile Include="ClientApp\src\index.tsx" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="ClientApp\build\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="ClientApp\build\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="ClientApp\build\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="ClientApp\build\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="ClientApp\build\asset-manifest.json" />
+    </ItemGroup>
+
 </Project>
