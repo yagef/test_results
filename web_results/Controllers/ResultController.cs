@@ -32,7 +32,10 @@ namespace WebResults.Controllers
 		[Route("api/Load")]
 		public IEnumerable<Result> Get()
 		{
-			return _context.Results.ToList();
+			return _context
+				.Results
+				.OrderBy(r => r.Id)
+				.ToList();
 		}
 
 		[HttpPut]
