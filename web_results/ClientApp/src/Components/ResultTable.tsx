@@ -3,6 +3,7 @@ import Result from "./Result";
 import ReadOnly from "./ReadOnly"
 import Modal from "./Modal";
 import {Histogram} from "./Histogram";
+import DataService from "./DataService";
 
 interface FetchResultsState {
     results: Result[];
@@ -10,7 +11,7 @@ interface FetchResultsState {
     show: boolean;
 }
 
-export class ResultTable extends React.PureComponent<{}, FetchResultsState>{
+export class ResultTable extends React.Component<{}, FetchResultsState>{
     
     public constructor(props: any) {
         super(props);
@@ -20,35 +21,26 @@ export class ResultTable extends React.PureComponent<{}, FetchResultsState>{
 
     private loadData() {
         this.setState({ loading: true});
-        fetch('api/Load')
-            .then(response => {
-                return response.json() as Promise<Result[]>
-            })
-            .then(data => {
-                this.setState({loading: false, results: data});
-            });
+        this.load_async();
     }
 
-    async save() {
+    private async load_async() {
+        let data = await DataService.load_async();
+        this.setState({loading: false, results: data});
+    }
+
+    private async save() {
         if (this.state.loading){
             return;
-        }
-
-        const data = new FormData();
-        data.append("payLoad", JSON.stringify(this.state.results));
-
-        const options = {
-            method: 'Put',
-            body: data
-        };
-        await fetch('api/Put/', options)
-        this.loadData()
+        }        
+        await DataService.put_async(this.state.results);
+        await this.load_async();
     }
 
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : this.renderTable(this.state.results);
+            : ResultTable.renderTable(this.state.results);
         let retention = this.getRetention(this.state.results, 7);
         return <div>
             {contents}
@@ -62,7 +54,7 @@ export class ResultTable extends React.PureComponent<{}, FetchResultsState>{
         </div>;
     }
 
-    renderTable(results: Result[]) {
+    private static renderTable(results: Result[]) {
         return <table className='table'>
             <thead>
                 <tr>
@@ -78,7 +70,7 @@ export class ResultTable extends React.PureComponent<{}, FetchResultsState>{
         </table>;
     }
 
-    showModal = () => {
+    private showModal = () => {
         this.setState({
             show: !this.state.show
         });
@@ -98,7 +90,7 @@ export class ResultTable extends React.PureComponent<{}, FetchResultsState>{
         return row
     }
 
-    getRetention(results: Result[], days: number) {
+    private getRetention(results: Result[], days: number) {
         if (results.length == 0){
             return 0
         }

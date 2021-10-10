@@ -44,6 +44,10 @@ namespace WebResults
 				{
 					spa.UseReactDevelopmentServer("start");
 				}
+				else
+				{
+					spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+				}
 			});
 		}
 	}

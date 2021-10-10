@@ -19,10 +19,10 @@
     <ItemGroup>
       <TypeScriptCompile Include="ClientApp\src\app.test.tsx" />
       <TypeScriptCompile Include="ClientApp\src\App.tsx" />
-      <TypeScriptCompile Include="ClientApp\src\Components\Histogram.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\Components\DataService.ts" />
       <TypeScriptCompile Include="ClientApp\src\Components\Histogram.tsx" />
       <TypeScriptCompile Include="ClientApp\src\Components\ReadOnly.tsx" />
-      <TypeScriptCompile Include="ClientApp\src\Components\Result.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\Components\Result.ts" />
       <TypeScriptCompile Include="ClientApp\src\Components\ResultTable.tsx" />
       <TypeScriptCompile Include="ClientApp\src\index.tsx" />
     </ItemGroup>

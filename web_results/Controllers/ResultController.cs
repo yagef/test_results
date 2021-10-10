@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +11,7 @@ using WebResults.Model;
 
 namespace WebResults.Controllers
 {
+	[Route("api")]
 	public class ResultController : Controller
 	{
 		private readonly AppDataContext _context;
@@ -29,7 +33,7 @@ namespace WebResults.Controllers
 		}
 
 		[HttpGet]
-		[Route("api/Load")]
+		[Route("Load")]
 		public IEnumerable<Result> Get()
 		{
 			return _context
@@ -39,17 +43,21 @@ namespace WebResults.Controllers
 		}
 
 		[HttpPut]
-		[Route("api/Put")]
-		public void Put(string payLoad)
+		[Route("Put")]
+		public IActionResult Put([FromBody] Result[] results)
 		{
-			if (string.IsNullOrEmpty(payLoad))
+			if (results is null)
 			{
-				return;
+				return BadRequest();
 			}
-			
-			var results = JsonSerializer.Deserialize<Result[]>(payLoad);
+			foreach (Result result in results)
+			{
+				result.Registered = result.Registered.ToLocalTime();
+				result.LastActivity = result.LastActivity.ToLocalTime();
+			}
 			_context.UpdateRange(results);
 			_context.SaveChanges();
+			return Ok();
 		}
 	}
 }
