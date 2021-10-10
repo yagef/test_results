@@ -19,6 +19,7 @@
     <ItemGroup>
       <TypeScriptCompile Include="ClientApp\src\app.test.tsx" />
       <TypeScriptCompile Include="ClientApp\src\App.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\Components\AddResult.tsx" />
       <TypeScriptCompile Include="ClientApp\src\Components\DataService.ts" />
       <TypeScriptCompile Include="ClientApp\src\Components\Histogram.tsx" />
       <TypeScriptCompile Include="ClientApp\src\Components\ReadOnly.tsx" />

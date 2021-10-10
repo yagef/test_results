@@ -4,6 +4,7 @@ import ReadOnly from "./ReadOnly"
 import Modal from "./Modal";
 import {Histogram} from "./Histogram";
 import DataService from "./DataService";
+import AddResult from "./AddResult";
 
 interface FetchResultsState {
     results: Result[];
@@ -40,13 +41,12 @@ export class ResultTable extends React.Component<{}, FetchResultsState>{
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : ResultTable.renderTable(this.state.results);
+            : this.renderTable(this.state.results);
         let retention = this.getRetention(this.state.results, 7);
         return <div>
             {contents}
             <button onClick={() => this.save()}>Save</button>
-            <button onClick={() => this.addRow(this.getNewRow())}>Add</button>
-            <button  onClick={() => this.showModal()}>{this.state.show ? "Close" : "Calculate"}</button>
+            <button onClick={() => this.showModal()}>{this.state.show ? "Close" : "Calculate"}</button>
             <Modal onClose={() => this.showModal()} show={this.state.show}>
                 <h1>Rolling Retention 7 day: {retention} %</h1>
                 {Histogram(this.state.results)}
@@ -54,7 +54,8 @@ export class ResultTable extends React.Component<{}, FetchResultsState>{
         </div>;
     }
 
-    private static renderTable(results: Result[]) {
+    private renderTable(results: Result[]) {
+        let undefId = 1;
         return <table className='table'>
             <thead>
                 <tr>
@@ -65,7 +66,11 @@ export class ResultTable extends React.Component<{}, FetchResultsState>{
                 </tr>
             </thead>
             <tbody>
-                {results.map(res => <ReadOnly key={res.id} res={res} />)}
+                {results.map(res => {
+                    let key = res.id?.toString() ?? "u" + undefId++;
+                    return <ReadOnly key={key} res={res} />
+                })}
+                <AddResult addCallback={(res: Result) => this.addRow(res)}/>
             </tbody>
         </table>;
     }
@@ -80,14 +85,6 @@ export class ResultTable extends React.Component<{}, FetchResultsState>{
         const data = this.state.results.slice();
         data.push(row)
         this.setState({results: data});
-    }
-
-    private getNewRow() {
-        const row = new Result(this.props);
-        row.userId = 1
-        row.registered = new Date(Date.now())
-        row.lastActivity = new Date(Date.now())
-        return row
     }
 
     private getRetention(results: Result[], days: number) {
